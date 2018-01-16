@@ -1,7 +1,7 @@
 # okAlgo
 
 
-Idiomatic Kotlin extensions for ojAlgo. 
+Idiomatic Kotlin extensions for ojAlgo. Still in development.
 
 Currently work is focused on linear/integer optimization part of the API. Closures can flexibly be invoked wherever they are needed. 
 
