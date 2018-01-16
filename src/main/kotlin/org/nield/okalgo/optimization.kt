@@ -62,3 +62,97 @@ fun ExpressionsBasedModel.variable(name: String? = null, lower: Number? = null, 
 }
 
 
+operator fun Variable.plus(other: Variable): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    eb += this
+    eb += other
+    return eb
+}
+
+operator fun Variable.minus(other: Variable): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    eb += this
+    eb.items += ExpressionItem(other, -1)
+    return eb
+}
+
+operator fun Variable.times(mutliplier: Number): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    eb.items += ExpressionItem(this, mutliplier)
+    return eb
+}
+
+operator fun Number.times(variable: Variable): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    eb.items += ExpressionItem(variable, this)
+    return eb
+}
+
+fun ExpressionsBasedModel.addExpression(expressionBuilder: ExpressionBuilder, weight: Number? = null) {
+    expressionBuilder.addToModel(this)
+}
+
+
+class ExpressionBuilder {
+    val items = mutableListOf<ExpressionItem>()
+    private var op: Int? = null
+    private var targetVal = 0
+
+    operator fun plusAssign(variable: Variable) {
+        items += ExpressionItem(variable, 1)
+    }
+
+    operator fun plus(variable: Variable): ExpressionBuilder {
+        items += ExpressionItem(variable, 1)
+        return this
+    }
+    operator fun plus(expressionItem: ExpressionItem): ExpressionBuilder {
+        items += expressionItem
+        return this
+    }
+
+    operator fun plus(expressionBuilder: ExpressionBuilder): ExpressionBuilder {
+        items.addAll(expressionBuilder.items)
+        return this
+    }
+    operator fun minus(variable: Variable) {
+        items += ExpressionItem(variable, -1)
+    }
+
+    infix fun EQ(number: Int): ExpressionBuilder {
+        op = 0
+        targetVal = number
+        return this
+    }
+
+    infix fun GT(number: Int): ExpressionBuilder {
+        op = 1
+        targetVal = number
+        return this
+    }
+
+    infix fun LT(number: Int): ExpressionBuilder {
+        op = -1
+        targetVal = number
+        return this
+    }
+
+    fun addToModel(model: ExpressionsBasedModel, name: String? = null) {
+
+        model.expression(name) {
+            items.forEach {
+                set(it.variable, it.weight)
+            }
+
+            when(op) {
+                0 -> level(targetVal)
+                -1 -> lower(targetVal)
+                1 -> upper(targetVal)
+            }
+        }
+
+
+    }
+
+}
+class ExpressionItem(val variable: Variable, val weight: Number = 1)

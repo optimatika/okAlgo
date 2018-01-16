@@ -1,7 +1,6 @@
 package org.nield.okalgo
 
 import org.junit.Test
-import org.ojalgo.optimisation.ExpressionsBasedModel
 
 
 class OptimizationTest {
@@ -9,19 +8,37 @@ class OptimizationTest {
     @Test
     fun expressionsBasedModelDSL() {
 
-        val model = ExpressionsBasedModel()
+        expressionsbasedmodel {
 
-        val v1 = model.variable(lower = 3, upper = 6)
-        val v2 = model.variable(lower = 10, upper = 12)
+            val v1 = variable(lower = 3, upper = 6)
+            val v2 = variable(lower = 10, upper = 12)
 
-        model.expression(weight=1) {
-            set(v1, 1)
-            set(v2, 1)
+            expression(weight = 1) {
+                set(v1, 1)
+                set(v2, 1)
+            }
+
+            maximise()
+
+            println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
         }
 
-        model.maximise()
+    }
 
-        println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
+    @Test
+    fun expressionBuilderTest() {
+
+        expressionsbasedmodel {
+
+            val v1 = variable(lower = 3, upper = 10)
+            val v2 = variable(lower = 10, upper = 12)
+
+            addExpression((1 * v1) + (1 * v2) GT 4)
+
+            maximise()
+
+            println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
+        }
 
     }
 }
