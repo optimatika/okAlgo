@@ -72,19 +72,21 @@ operator fun Variable.plus(other: Variable): ExpressionBuilder {
 operator fun Variable.minus(other: Variable): ExpressionBuilder {
     val eb = ExpressionBuilder()
     eb += this
-    eb.items += ExpressionItem(other, -1)
+    eb - other
     return eb
 }
 
-operator fun Variable.times(mutliplier: Number): ExpressionBuilder {
+operator fun Variable.times(multiplier: Number): ExpressionBuilder {
     val eb = ExpressionBuilder()
-    eb.items += ExpressionItem(this, mutliplier)
+    val variable = this
+    eb.items += { set(variable, multiplier) }
     return eb
 }
 
 operator fun Number.times(variable: Variable): ExpressionBuilder {
     val eb = ExpressionBuilder()
-    eb.items += ExpressionItem(variable, this)
+    val multiplier = this
+    eb.items += { set(variable, multiplier) }
     return eb
 }
 
@@ -94,20 +96,14 @@ fun ExpressionsBasedModel.addExpression(expressionBuilder: ExpressionBuilder, we
 
 
 class ExpressionBuilder {
-    val items = mutableListOf<ExpressionItem>()
-    private var op: Int? = null
-    private var targetVal = 0
+    val items = mutableListOf<Expression.() -> Unit>()
 
     operator fun plusAssign(variable: Variable) {
-        items += ExpressionItem(variable, 1)
+        items += { set(variable, 1) }
     }
 
     operator fun plus(variable: Variable): ExpressionBuilder {
-        items += ExpressionItem(variable, 1)
-        return this
-    }
-    operator fun plus(expressionItem: ExpressionItem): ExpressionBuilder {
-        items += expressionItem
+        items += { set(variable, 1) }
         return this
     }
 
@@ -115,25 +111,23 @@ class ExpressionBuilder {
         items.addAll(expressionBuilder.items)
         return this
     }
-    operator fun minus(variable: Variable) {
-        items += ExpressionItem(variable, -1)
+    operator fun minus(variable: Variable): ExpressionBuilder {
+        items += { set(variable, -1) }
+        return this
     }
 
     infix fun EQ(number: Int): ExpressionBuilder {
-        op = 0
-        targetVal = number
+        items += { level(number) }
         return this
     }
 
-    infix fun GT(number: Int): ExpressionBuilder {
-        op = 1
-        targetVal = number
+    infix fun GTE(number: Int): ExpressionBuilder {
+        items += { upper(number) }
         return this
     }
 
-    infix fun LT(number: Int): ExpressionBuilder {
-        op = -1
-        targetVal = number
+    infix fun LTE(number: Int): ExpressionBuilder {
+        items += { lower(number) }
         return this
     }
 
@@ -141,18 +135,8 @@ class ExpressionBuilder {
 
         model.expression(name) {
             items.forEach {
-                set(it.variable, it.weight)
-            }
-
-            when(op) {
-                0 -> level(targetVal)
-                -1 -> lower(targetVal)
-                1 -> upper(targetVal)
+                this.it()
             }
         }
-
-
     }
-
 }
-class ExpressionItem(val variable: Variable, val weight: Number = 1)
