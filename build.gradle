@@ -28,5 +28,6 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
     compile 'org.ojalgo:ojalgo:44.0.0'
+    compile 'junit:junit:4.12'
 }
 
