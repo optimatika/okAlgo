@@ -5,6 +5,7 @@ Idiomatic Kotlin extensions for ojAlgo.
 
 Currently work is focused on linear/integer optimization part of the API. Closures can flexibly be invoked wherever they are needed. 
 
+**EXAMPLE 1**
 
 ```kotlin 
 expressionsbasedmodel {
@@ -22,6 +23,9 @@ expressionsbasedmodel {
     println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
 }
 ```
+
+**EXAMPLE 2**
+
 
 ```kotlin 
 val model = ExpressionsBasedModel()
@@ -42,6 +46,8 @@ println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
 
 Expression building with Kotlin extensions is also being explored:
 
+
+**EXAMPLE 3**
 
 ```kotlin 
 val v1 = variable(lower = 3, upper = 10)
