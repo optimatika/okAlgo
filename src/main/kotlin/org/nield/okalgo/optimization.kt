@@ -34,13 +34,14 @@ fun ExpressionsBasedModel.objective(name: String? = null, lower: Number? = null,
     return expr
 }
 
-fun ExpressionsBasedModel.expression(name: String? = null, lower: Number? = null, upper: Number? = null, op: Expression.() -> Unit = {}): Expression {
+fun ExpressionsBasedModel.expression(name: String? = null, lower: Number? = null, upper: Number? = null, weight: Number? = null, op: Expression.() -> Unit = {}): Expression {
 
     val expr = addExpression(name ?: getAutoNameState().generateExpressionName())
 
     expr.op()
     lower?.let { expr.lower(it) }
     upper?.let { expr.upper(it) }
+    weight?.let { expr.weight(it) }
 
     return expr
 }
