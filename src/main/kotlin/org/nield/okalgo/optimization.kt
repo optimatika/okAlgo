@@ -17,6 +17,18 @@ class AutoNameState {
 val autoNameStates = mutableMapOf<ExpressionsBasedModel,AutoNameState>()
 fun ExpressionsBasedModel.getAutoNameState() = autoNameStates.computeIfAbsent(this) { AutoNameState() }
 
+
+fun ExpressionsBasedModel.objective(name: String? = null, lower: Number? = null, upper: Number? = null, op: Expression.() -> Unit = {}): Expression {
+
+    val expr = objective()
+
+    expr.op()
+    lower?.let { expr.lower(it) }
+    upper?.let { expr.upper(it) }
+
+    return expr
+}
+
 fun ExpressionsBasedModel.expression(name: String? = null, lower: Number? = null, upper: Number? = null, op: Expression.() -> Unit = {}): Expression {
 
     val expr = addExpression(name ?: getAutoNameState().generateExpressionName())
