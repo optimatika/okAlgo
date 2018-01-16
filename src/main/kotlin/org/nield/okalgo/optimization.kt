@@ -46,13 +46,16 @@ fun ExpressionsBasedModel.expression(name: String? = null, lower: Number? = null
 }
 
 
-fun ExpressionsBasedModel.variable(name: String? = null,  lower: Number? = null, upper: Number? = null, weight: Number? = null, op: Variable.() -> Unit = {}): Variable {
+fun ExpressionsBasedModel.variable(name: String? = null, lower: Number? = null, upper: Number? = null, weight: Number? = null, isBinary: Boolean? = null, isInteger: Boolean? = null, op: Variable.() -> Unit = {}): Variable {
 
     val variable = Variable(name ?: getAutoNameState().generateVariableName())
     variable.op()
     lower?.let { variable.lower(it) }
     upper?.let { variable.upper(it) }
     weight?.let { variable.weight(it) }
+    isBinary?.let { if (it) variable.binary() }
+    isInteger?.let { variable.integer(it) }
+
     addVariable(variable)
     return variable
 }
