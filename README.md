@@ -1,7 +1,9 @@
 # okAlgo
 
 
-Idiomatic Kotlin extensions for ojAlgo. Still in development.
+Idiomatic Kotlin extensions for ojAlgo, with some inspirations from [PuLP](https://github.com/coin-or/pulp). 
+
+Still in development. Production usage not recommended. 
 
 Currently work is focused on linear/integer optimization part of the API. Closures can flexibly be invoked wherever they are needed. 
 
