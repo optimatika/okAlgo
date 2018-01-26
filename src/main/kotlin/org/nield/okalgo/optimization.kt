@@ -22,7 +22,7 @@ fun expressionsbasedmodel(op: ExpressionsBasedModel.() -> Unit): ExpressionsBase
     ebm.op()
     return ebm
 }
-
+/*
 fun ExpressionsBasedModel.objective(name: String? = null, lower: Number? = null, upper: Number? = null, op: Expression.() -> Unit = {}): Expression {
 
     val expr = objective()
@@ -33,10 +33,18 @@ fun ExpressionsBasedModel.objective(name: String? = null, lower: Number? = null,
 
     return expr
 }
+*/
 
-fun ExpressionsBasedModel.expression(name: String? = null, lower: Number? = null, upper: Number? = null, weight: Number? = null, op: Expression.() -> Unit = {}): Expression {
+fun ExpressionsBasedModel.expression(expression: ExpressionBuilder? = null,
+                                     name: String? = null,
+                                     lower: Number? = null,
+                                     upper: Number? = null,
+                                     weight: Number? = null,
+                                     op: Expression.() -> Unit = {}): Expression {
 
     val expr = addExpression(name ?: getAutoNameState().generateExpressionName())
+
+    expression?.addToModel(this)
 
     expr.op()
     lower?.let { expr.lower(it) }
@@ -90,8 +98,66 @@ operator fun Number.times(variable: Variable): ExpressionBuilder {
     return eb
 }
 
-fun ExpressionsBasedModel.addExpression(expressionBuilder: ExpressionBuilder, weight: Number? = null) {
-    expressionBuilder.addToModel(this)
+infix fun Number.LTE(variable: Variable): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    val lower = this
+    eb.items += {
+        lower(lower)
+        set(variable, 1)
+    }
+    return eb
+}
+
+infix fun Number.GTE(variable: Variable): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    val upper = this
+    eb.items += {
+        upper(upper)
+        set(variable, 1)
+    }
+    return eb
+}
+
+infix fun Number.EQ(variable: Variable): ExpressionBuilder {
+    val eb = ExpressionBuilder()
+    val upper = this
+    eb.items += {
+        level(upper)
+        set(variable, 1)
+    }
+    return eb
+}
+
+
+infix fun Number.LTE(expression: ExpressionBuilder): ExpressionBuilder {
+    val eb = expression
+    val lower = this
+    eb.items += {
+        lower(lower)
+    }
+    return eb
+}
+
+infix fun Number.GTE(expression: ExpressionBuilder): ExpressionBuilder {
+    val eb = expression
+    val upper = this
+    eb.items += {
+        upper(upper)
+    }
+    return eb
+}
+
+infix fun Number.EQ(expression: ExpressionBuilder): ExpressionBuilder {
+    val eb = expression
+    val upper = this
+    eb.items += {
+        level(upper)
+    }
+    return eb
+}
+
+fun ExpressionsBasedModel.set(expression: ExpressionBuilder) {
+    expression.addToModel(this)
 }
 
 
@@ -116,6 +182,10 @@ class ExpressionBuilder {
         return this
     }
 
+    fun weight(weight: Number): ExpressionBuilder {
+        items += { weight(weight) }
+        return this
+    }
     infix fun EQ(number: Int): ExpressionBuilder {
         items += { level(number) }
         return this
@@ -133,7 +203,7 @@ class ExpressionBuilder {
 
     fun addToModel(model: ExpressionsBasedModel, name: String? = null) {
 
-        model.expression(name) {
+        model.expression(name = name) {
             items.forEach {
                 this.it()
             }

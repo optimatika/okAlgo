@@ -26,16 +26,39 @@ class OptimizationTest {
     }
 
     @Test
-    fun expressionBuilderTest() {
+    fun expressionBuilderTest1() {
 
         expressionsbasedmodel {
 
             val v1 = variable(lower = 3, upper = 10)
             val v2 = variable(lower = 10, upper = 12)
 
-            addExpression((1 * v1) + (1 * v2) GTE 4)
+            expression(
+                    expression = (.3 * v1) + (.2 * v2) GTE 4,
+                    weight = 1
+            )
 
-            maximise()
+            maximise().run(::println)
+
+            println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
+        }
+
+    }
+
+    @Test
+    fun expressionBuilderTest2() {
+
+        expressionsbasedmodel {
+
+            val v1 = variable(lower = 3, upper = 10)
+            val v2 = variable(lower = 10, upper = 12)
+
+            expression {
+                set(.3 * v1 + .2 * v2)
+                weight(1)
+            }
+
+            maximise().run(::println)
 
             println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
         }
