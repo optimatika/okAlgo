@@ -52,8 +52,21 @@ Expression building with Kotlin extensions is also being explored:
 **EXAMPLE 3**
 
 ```kotlin 
-val v1 = variable(lower = 3, upper = 10)
-val v2 = variable(lower = 10, upper = 12)
+expressionsbasedmodel {
 
-addExpression((2 * v1) + (3 * v2) GTE 4)
+    val v1 = variable(lower = 2, upper = 10, isInteger = true)
+    val v2 = variable(lower = 2, upper = 10, isInteger = true)
+
+    expression(v1 + 2*v2) {
+        weight(1)
+    }
+
+    expression {
+        set(v1 + v2 EQ 16)
+    }
+
+    minimise().run(::println)
+
+    println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
+}
 ```
