@@ -44,7 +44,11 @@ fun ExpressionsBasedModel.expression(expression: ExpressionBuilder? = null,
 
     val expr = addExpression(name ?: getAutoNameState().generateExpressionName())
 
-    expression?.addToModel(this)
+    expression?.also {
+        it.items.forEach {
+            expr.it()
+        }
+    }
 
     expr.op()
     lower?.let { expr.lower(it) }
@@ -84,12 +88,19 @@ operator fun Variable.minus(other: Variable): ExpressionBuilder {
     return eb
 }
 
-operator fun Variable.times(multiplier: Number): ExpressionBuilder {
-    val eb = ExpressionBuilder()
-    val variable = this
-    eb.items += { set(variable, multiplier) }
+operator fun Variable.plus(expression: ExpressionBuilder): ExpressionBuilder {
+    val eb = expression
+    eb += this
     return eb
 }
+
+
+operator fun Variable.minus(expression: ExpressionBuilder): ExpressionBuilder {
+    val eb = expression
+    eb += this
+    return eb
+}
+
 
 operator fun Number.times(variable: Variable): ExpressionBuilder {
     val eb = ExpressionBuilder()

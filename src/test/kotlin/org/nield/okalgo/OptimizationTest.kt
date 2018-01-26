@@ -34,8 +34,7 @@ class OptimizationTest {
             val v2 = variable(lower = 10, upper = 12)
 
             expression(
-                    expression = (.3 * v1) + (.2 * v2) GTE 4,
-                    weight = 1
+                    expression = (.3 * v1) + (.2 * v2) GTE 4
             )
 
             maximise().run(::println)
@@ -50,17 +49,22 @@ class OptimizationTest {
 
         expressionsbasedmodel {
 
-            val v1 = variable(lower = 3, upper = 10)
-            val v2 = variable(lower = 10, upper = 12)
+            val v1 = variable(lower = 2, upper = 10, isInteger = true)
+            val v2 = variable(lower = 2, upper = 10, isInteger = true)
 
-            expression {
-                set(.3 * v1 + .2 * v2)
+            expression(v1 + 2*v2) {
                 weight(1)
             }
 
-            maximise().run(::println)
+            expression {
+                set(v1 + v2 EQ 16)
+            }
+
+            minimise().run(::println)
 
             println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
+
+
         }
 
     }
