@@ -1,4 +1,4 @@
-package org.nield.okalgo
+package org.ojalgo.okalgo
 
 import org.ojalgo.optimisation.Expression
 import org.ojalgo.optimisation.ExpressionsBasedModel
@@ -14,7 +14,7 @@ class AutoNameState {
     fun generateExpressionName() = funcId.incrementAndGet().let { "Func$it"}
 }
 
-val autoNameStates = mutableMapOf<ExpressionsBasedModel,AutoNameState>()
+val autoNameStates = mutableMapOf<ExpressionsBasedModel, AutoNameState>()
 fun ExpressionsBasedModel.getAutoNameState() = autoNameStates.computeIfAbsent(this) { AutoNameState() }
 
 fun expressionsbasedmodel(op: ExpressionsBasedModel.() -> Unit): ExpressionsBasedModel {

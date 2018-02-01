@@ -1,4 +1,4 @@
-package org.nield.okalgo
+package org.ojalgo.okalgo
 
 import org.junit.Test
 
@@ -52,7 +52,7 @@ class OptimizationTest {
             val v1 = variable(lower = 2, upper = 10, isInteger = true)
             val v2 = variable(lower = 2, upper = 10, isInteger = true)
 
-            expression(v1 + 2*v2) {
+            expression(v1 + 2 * v2) {
                 weight(1)
             }
 
