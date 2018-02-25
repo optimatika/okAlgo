@@ -3,7 +3,7 @@
 
 Idiomatic Kotlin extensions for ojAlgo, with some inspirations from [PuLP](https://github.com/coin-or/pulp). 
 
-Still in development. Production usage not recommended. 
+Still in development. Production usage not recommended yet.
 
 Currently work is focused on linear/integer optimization part of the API. Closures can flexibly be invoked wherever they are needed. 
 
@@ -68,5 +68,37 @@ expressionsbasedmodel {
     minimise().run(::println)
 
     println("v1=${v1.value.toDouble()} v2=${v2.value.toDouble()}")
+}
+```
+
+## Artifact Instructions
+
+Until this gets deployed to Maven Central, you can use JitPack to import this project as a dependency.
+
+**Maven**
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+<dependency>
+    <groupId>com.github.optimatika</groupId>
+    <artifactId>okalgo</artifactId>
+    <version>-SNAPSHOT</version>
+</dependency>
+```
+
+**Gradle**
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile 'com.github.optimatika:okalgo:-SNAPSHOT'
 }
 ```

@@ -13,6 +13,9 @@ buildscript {
 
 
 apply plugin: 'kotlin'
+apply plugin: 'maven'
+
+group = 'org.ojalgo'
 /*
 apply plugin: 'maven'
 apply plugin: 'signing'
