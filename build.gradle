@@ -1,9 +1,9 @@
 
 buildscript {
-    ext.kotlin_version = '1.2.20'
+    ext.kotlin_version = '1.2.31'
 
     repositories {
-            maven { url 'http://repo1.maven.org/maven2' }
+            mavenCentral()
     }
 
     dependencies {
@@ -21,12 +21,12 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 repositories {
-    maven { url 'http://repo1.maven.org/maven2' }
+    mavenCentral()
 }
 
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.ojalgo:ojalgo:45.1.0'
     compile 'junit:junit:4.12'
 }
@@ -53,7 +53,7 @@ signing {
 
 group = "org.ojalgo"
 archivesBaseName = "okalgo"
-version = "0.0.1"
+version = "0.0.2"
 
 uploadArchives {
     repositories {
@@ -98,4 +98,3 @@ uploadArchives {
         }
     }
 }
-
