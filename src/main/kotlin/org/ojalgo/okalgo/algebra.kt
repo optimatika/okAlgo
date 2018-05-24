@@ -51,7 +51,7 @@ fun <T, N: Number> Iterable<T>.toComplexMatrix(vararg selectors: (T) -> N): Comp
 }
 
 
-fun <T, N: Number> Sequence<T>.toRationalmAtrix(vararg selectors: (T) -> N): RationalMatrix {
+fun <T, N: Number> Sequence<T>.toRationalMatrix(vararg selectors: (T) -> N): RationalMatrix {
     val items = toList()
 
     return rationalmatrix(items.count(), selectors.count()) {
@@ -60,7 +60,7 @@ fun <T, N: Number> Sequence<T>.toRationalmAtrix(vararg selectors: (T) -> N): Rat
         }
     }
 }
-fun <T, N: Number> Iterable<T>.toRationalmAtrix(vararg selectors: (T) -> N): RationalMatrix {
+fun <T, N: Number> Iterable<T>.toRationalMatrix(vararg selectors: (T) -> N): RationalMatrix {
     val items = toList()
 
     return rationalmatrix(items.count(), selectors.count()) {
