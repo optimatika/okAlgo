@@ -22,23 +22,12 @@ fun expressionsbasedmodel(op: ExpressionsBasedModel.() -> Unit): ExpressionsBase
     ebm.op()
     return ebm
 }
-/*
-fun ExpressionsBasedModel.objective(name: String? = null, lower: Number? = null, upper: Number? = null, op: Expression.() -> Unit = {}): Expression {
-
-    val expr = objective()
-
-    expr.op()
-    lower?.let { expr.lower(it) }
-    upper?.let { expr.upper(it) }
-
-    return expr
-}
-*/
 
 fun ExpressionsBasedModel.expression(expression: ExpressionBuilder? = null,
                                      name: String? = null,
                                      lower: Number? = null,
                                      upper: Number? = null,
+                                     level: Number? = null,
                                      weight: Number? = null,
                                      op: Expression.() -> Unit = {}): Expression {
 
@@ -53,18 +42,20 @@ fun ExpressionsBasedModel.expression(expression: ExpressionBuilder? = null,
     expr.op()
     lower?.let { expr.lower(it) }
     upper?.let { expr.upper(it) }
+    level?.let { expr.level(it) }
     weight?.let { expr.weight(it) }
 
     return expr
 }
 
 
-fun ExpressionsBasedModel.variable(name: String? = null, lower: Number? = null, upper: Number? = null, weight: Number? = null, isBinary: Boolean? = null, isInteger: Boolean? = null, op: Variable.() -> Unit = {}): Variable {
+fun ExpressionsBasedModel.variable(name: String? = null, lower: Number? = null, upper: Number? = null, level: Number? = null, weight: Number? = null, isBinary: Boolean? = null, isInteger: Boolean? = null, op: Variable.() -> Unit = {}): Variable {
 
     val variable = Variable(name ?: getAutoNameState().generateVariableName())
     variable.op()
     lower?.let { variable.lower(it) }
     upper?.let { variable.upper(it) }
+    level?.let { variable.level(it) }
     weight?.let { variable.weight(it) }
     isBinary?.let { if (it) variable.binary() }
     isInteger?.let { variable.integer(it) }
