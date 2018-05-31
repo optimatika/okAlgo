@@ -194,12 +194,12 @@ class ExpressionBuilder {
     }
 
     infix fun GTE(number: Int): ExpressionBuilder {
-        items += { upper(number) }
+        items += { lower(number) }
         return this
     }
 
     infix fun LTE(number: Int): ExpressionBuilder {
-        items += { lower(number) }
+        items += { upper(number) }
         return this
     }
 
