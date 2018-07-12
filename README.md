@@ -78,27 +78,15 @@ Until this gets deployed to Maven Central, you can use JitPack to import this pr
 **Maven**
 
 ```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
 <dependency>
-    <groupId>com.github.optimatika</groupId>
+    <groupId>org.ojalgo</groupId>
     <artifactId>okalgo</artifactId>
-    <version>-SNAPSHOT</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
 **Gradle**
 
 ```groovy
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-
-dependencies {
-    compile 'com.github.optimatika:okalgo:-SNAPSHOT'
-}
+compile 'org.ojalgo:okalgo:0.0.2'
 ```
