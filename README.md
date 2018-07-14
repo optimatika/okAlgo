@@ -1,6 +1,8 @@
 # okAlgo
 
 
+[![](https://jitpack.io/v/optimatika/okAlgo.svg)](https://jitpack.io/#optimatika/okAlgo)
+
 Idiomatic Kotlin extensions for ojAlgo, with some inspirations from [PuLP](https://github.com/coin-or/pulp). 
 
 Still in development. Production usage not recommended yet.
