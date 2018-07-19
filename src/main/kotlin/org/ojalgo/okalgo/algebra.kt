@@ -2,10 +2,17 @@ package org.ojalgo.okalgo
 
 import org.ojalgo.algebra.Operation
 import org.ojalgo.algebra.ScalarOperation
+import org.ojalgo.array.BigArray
+import org.ojalgo.array.BufferArray
+import org.ojalgo.array.ComplexArray
+import org.ojalgo.array.RationalArray
 import org.ojalgo.matrix.BasicMatrix
 import org.ojalgo.matrix.ComplexMatrix
 import org.ojalgo.matrix.PrimitiveMatrix
 import org.ojalgo.matrix.RationalMatrix
+import org.ojalgo.scalar.ComplexNumber
+import org.ojalgo.scalar.Quaternion
+import org.ojalgo.scalar.RationalNumber
 import java.math.BigDecimal
 
 
@@ -71,6 +78,22 @@ fun <T, N: Number> Iterable<T>.toRationalMatrix(vararg selectors: (T) -> N): Rat
 }
 
 
+fun bigArrayOf(vararg values: Double) = BigArray.FACTORY.copy(*values)
+fun bigArrayOf(vararg values: ComplexNumber) = BigArray.FACTORY.copy(*values)
+fun bigArrayOf(vararg values: BigDecimal) = BigArray.FACTORY.copy(*values)
+
+fun complexArrayOf(vararg values: ComplexNumber) = ComplexArray.FACTORY.copy(*values)
+
+fun direct32ArrayOf(vararg values: Double) = BufferArray.DIRECT32.copy(*values)
+fun direct64ArrayOf(vararg values: Double) = BufferArray.DIRECT64.copy(*values)
+
+fun quanternionArrayOf(vararg values: Quaternion) = Quaternion.FACTORY.newArrayInstance(values.count()).apply {
+    values.withIndex().forEach { this[it.index] = it.value }
+}
+
+fun rationalArrayOf(vararg values: RationalNumber) = RationalArray.FACTORY.copy(*values)
+
+/*
 fun vectorOf(vararg values: Int) = primitivematrix(values.count(), 1) {
     populate { row, col -> values[row.toInt()]  }
 }
@@ -86,6 +109,7 @@ fun vectorOf(vararg values: Long) = primitivematrix(values.count(), 1) {
 fun vectorOf(vararg values: BigDecimal) = rationalmatrix(values.count(), 1) {
     populate { row, col -> values[row.toInt()]  }
 }
+*/
 
 
 fun primitivematrix(rows: Int, cols: Int, op: (BasicMatrix.Builder<PrimitiveMatrix>.() -> Unit)? = null) =
