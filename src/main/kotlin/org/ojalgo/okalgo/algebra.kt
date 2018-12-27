@@ -131,6 +131,65 @@ fun ComplexMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
 fun RationalMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
         loopAll { row, col -> set(row, col, op(row,col))  }
 
+fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
+    val totalRows = countRows()
+    val totalCols = countColumns()
+
+    for ((i,v) in values.withIndex()) {
+        set(i.toLong(),v)
+    }
+}
+
+fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
+    val totalRows = countRows()
+    val totalCols = countColumns()
+
+    for ((i,v) in values.withIndex()) {
+        set(i.toLong(),v)
+    }
+}
+
+fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
+    val totalRows = countRows()
+    val totalCols = countColumns()
+
+    for ((i,v) in values.withIndex()) {
+        set(i.toLong(),v)
+    }
+}
+
+fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
+    val totalRows = countRows()
+    val totalCols = countColumns()
+
+    for ((i,v) in values.withIndex()) {
+        set(i.toLong(),v)
+    }
+}
+
+
+fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
+    val totalRows = countRows()
+    val totalCols = countColumns()
+
+    for ((i,v) in values.withIndex()) {
+        set(i.toLong(),v)
+    }
+}
+
+fun RationalMatrix.DenseReceiver.populate(vararg values: Number) {
+    val totalRows = countRows()
+    val totalCols = countColumns()
+
+    for ((i,v) in values.withIndex()) {
+        set(i.toLong(),v)
+    }
+}
+
+
+
+
+
 operator fun <T> Operation.Addition<T>.plus(t: T) = add(t)
 operator fun <T> Operation.Division<T>.div(t: T) = divide(t)
 operator fun <T> Operation.Multiplication<T>.times(t: T) = multiply(t)
