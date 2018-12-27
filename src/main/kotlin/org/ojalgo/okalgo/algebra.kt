@@ -10,6 +10,7 @@ import org.ojalgo.scalar.ComplexNumber
 import org.ojalgo.scalar.Quaternion
 import org.ojalgo.scalar.RationalNumber
 import java.math.BigDecimal
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 fun <T, N: Number> Sequence<T>.toPrimitiveMatrix(vararg selectors: (T) -> N): PrimitiveMatrix {
@@ -105,22 +106,32 @@ fun vectorOf(vararg values: BigDecimal) = rationalmatrix(values.count(), 1) {
     populate { row, col -> values[row.toInt()]  }
 }
 
+private val transposeFlag1 = AtomicBoolean(false)
 
 fun primitivematrix(rows: Int, cols: Int, op: (PrimitiveMatrix.DenseReceiver.() -> Unit)? = null) =
         PrimitiveMatrix.FACTORY.makeDense(rows,cols).also {
             if (op != null) op(it)
-        }.build()
+        }.build().let {
+            if (transposeFlag1.getAndSet(false)) it.transpose() else it
+        }
 
+private val transposeFlag2 = AtomicBoolean(false)
 
 fun complexmatrix(rows: Int, cols: Int, op: (ComplexMatrix.DenseReceiver.() -> Unit)? = null) =
         ComplexMatrix.FACTORY.makeDense(rows,cols).also {
             if (op != null) op(it)
-        }.build()
+        }.build().let {
+            if (transposeFlag2.getAndSet(false)) it.transpose() else it
+        }
+
+private val transposeFlag3 = AtomicBoolean(false)
 
 fun rationalmatrix(rows: Int, cols: Int, op: (RationalMatrix.DenseReceiver.() -> Unit)? = null) =
         RationalMatrix.FACTORY.makeDense(rows,cols).also {
             if (op != null) op(it)
-        }.build()
+        }.build().let {
+            if (transposeFlag3.getAndSet(false)) it.transpose() else it
+        }
 
 fun PrimitiveMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
         loopAll { row, col -> set(row, col, op(row,col))  }
@@ -132,15 +143,18 @@ fun RationalMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
         loopAll { row, col -> set(row, col, op(row,col))  }
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
+    transposeFlag1.set(true)
     val totalRows = countRows()
     val totalCols = countColumns()
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
     }
+
 }
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
+    transposeFlag1.set(true)
     val totalRows = countRows()
     val totalCols = countColumns()
 
@@ -150,6 +164,7 @@ fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
 }
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
+    transposeFlag2.set(true)
     val totalRows = countRows()
     val totalCols = countColumns()
 
@@ -159,6 +174,7 @@ fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
 }
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
+    transposeFlag2.set(true)
     val totalRows = countRows()
     val totalCols = countColumns()
 
@@ -169,6 +185,7 @@ fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
 
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
+    transposeFlag3.set(true)
     val totalRows = countRows()
     val totalCols = countColumns()
 
@@ -178,6 +195,7 @@ fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
 }
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Number) {
+    transposeFlag3.set(true)
     val totalRows = countRows()
     val totalCols = countColumns()
 
