@@ -143,9 +143,9 @@ fun RationalMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
         loopAll { row, col -> set(row, col, op(row,col))  }
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
-    transposeFlag1.set(true)
-    val totalRows = countRows()
     val totalCols = countColumns()
+
+    if (totalCols > 1) transposeFlag1.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -154,9 +154,8 @@ fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
 }
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
-    transposeFlag1.set(true)
-    val totalRows = countRows()
     val totalCols = countColumns()
+    if (totalCols > 1) transposeFlag1.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -164,9 +163,8 @@ fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
 }
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
-    transposeFlag2.set(true)
-    val totalRows = countRows()
     val totalCols = countColumns()
+    if (totalCols > 1) transposeFlag2.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -174,9 +172,8 @@ fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
 }
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
-    transposeFlag2.set(true)
-    val totalRows = countRows()
     val totalCols = countColumns()
+    if (totalCols > 1) transposeFlag2.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -185,9 +182,9 @@ fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
 
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
-    transposeFlag3.set(true)
-    val totalRows = countRows()
     val totalCols = countColumns()
+    if (totalCols > 1) transposeFlag3.set(true)
+
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -195,9 +192,8 @@ fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
 }
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Number) {
-    transposeFlag3.set(true)
-    val totalRows = countRows()
     val totalCols = countColumns()
+    if (totalCols > 1)transposeFlag3.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
