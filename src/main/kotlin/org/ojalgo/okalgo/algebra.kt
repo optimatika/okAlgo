@@ -106,32 +106,20 @@ fun vectorOf(vararg values: BigDecimal) = rationalmatrix(values.count(), 1) {
     populate { row, col -> values[row.toInt()]  }
 }
 
-private val transposeFlag1 = AtomicBoolean(false)
-
 fun primitivematrix(rows: Int, cols: Int, op: (PrimitiveMatrix.DenseReceiver.() -> Unit)? = null) =
         PrimitiveMatrix.FACTORY.makeDense(rows,cols).also {
             if (op != null) op(it)
-        }.build().let {
-            if (transposeFlag1.getAndSet(false)) it.transpose() else it
-        }
-
-private val transposeFlag2 = AtomicBoolean(false)
+        }.build()
 
 fun complexmatrix(rows: Int, cols: Int, op: (ComplexMatrix.DenseReceiver.() -> Unit)? = null) =
         ComplexMatrix.FACTORY.makeDense(rows,cols).also {
             if (op != null) op(it)
-        }.build().let {
-            if (transposeFlag2.getAndSet(false)) it.transpose() else it
-        }
-
-private val transposeFlag3 = AtomicBoolean(false)
+        }.build()
 
 fun rationalmatrix(rows: Int, cols: Int, op: (RationalMatrix.DenseReceiver.() -> Unit)? = null) =
         RationalMatrix.FACTORY.makeDense(rows,cols).also {
             if (op != null) op(it)
-        }.build().let {
-            if (transposeFlag3.getAndSet(false)) it.transpose() else it
-        }
+        }.build()
 
 fun PrimitiveMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
         loopAll { row, col -> set(row, col, op(row,col))  }
@@ -144,9 +132,6 @@ fun RationalMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
     val totalCols = countColumns()
-
-    if (totalCols > 1) transposeFlag1.set(true)
-
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
     }
@@ -155,7 +140,6 @@ fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
     val totalCols = countColumns()
-    if (totalCols > 1) transposeFlag1.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -164,7 +148,6 @@ fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
     val totalCols = countColumns()
-    if (totalCols > 1) transposeFlag2.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -173,7 +156,6 @@ fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
     val totalCols = countColumns()
-    if (totalCols > 1) transposeFlag2.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -183,8 +165,6 @@ fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
     val totalCols = countColumns()
-    if (totalCols > 1) transposeFlag3.set(true)
-
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
@@ -193,7 +173,6 @@ fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Number) {
     val totalCols = countColumns()
-    if (totalCols > 1)transposeFlag3.set(true)
 
     for ((i,v) in values.withIndex()) {
         set(i.toLong(),v)
