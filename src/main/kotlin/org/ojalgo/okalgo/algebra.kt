@@ -131,51 +131,64 @@ fun RationalMatrix.DenseReceiver.populate(op: (Long,Long) -> Number) =
         loopAll { row, col -> set(row, col, op(row,col))  }
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Double) {
-    val totalCols = countColumns()
-    for ((i,v) in values.withIndex()) {
-        set(i.toLong(),v)
-    }
 
+    var takeIndex = 0
+
+    for (r in 0 until countRows()) {
+        for (c in 0 until countColumns()) {
+            set(r,c, values[takeIndex++])
+        }
+    }
 }
 
 fun PrimitiveMatrix.DenseReceiver.populate(vararg values: Number) {
-    val totalCols = countColumns()
+    var takeIndex = 0
 
-    for ((i,v) in values.withIndex()) {
-        set(i.toLong(),v)
+    for (r in 0 until countRows()) {
+        for (c in 0 until countColumns()) {
+            set(r,c, values[takeIndex++])
+        }
     }
 }
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Double) {
-    val totalCols = countColumns()
+    var takeIndex = 0
 
-    for ((i,v) in values.withIndex()) {
-        set(i.toLong(),v)
+    for (r in 0 until countRows()) {
+        for (c in 0 until countColumns()) {
+            set(r,c, values[takeIndex++])
+        }
     }
 }
 
 fun ComplexMatrix.DenseReceiver.populate(vararg values: Number) {
-    val totalCols = countColumns()
+    var takeIndex = 0
 
-    for ((i,v) in values.withIndex()) {
-        set(i.toLong(),v)
+    for (r in 0 until countRows()) {
+        for (c in 0 until countColumns()) {
+            set(r,c, values[takeIndex++])
+        }
     }
 }
 
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Double) {
-    val totalCols = countColumns()
+    var takeIndex = 0
 
-    for ((i,v) in values.withIndex()) {
-        set(i.toLong(),v)
+    for (r in 0 until countRows()) {
+        for (c in 0 until countColumns()) {
+            set(r,c, values[takeIndex++])
+        }
     }
 }
 
 fun RationalMatrix.DenseReceiver.populate(vararg values: Number) {
-    val totalCols = countColumns()
+    var takeIndex = 0
 
-    for ((i,v) in values.withIndex()) {
-        set(i.toLong(),v)
+    for (r in 0 until countRows()) {
+        for (c in 0 until countColumns()) {
+            set(r,c, values[takeIndex++])
+        }
     }
 }
 
