@@ -102,7 +102,7 @@ fun vectorOf(vararg values: Long) = primitivematrix(values.count(), 1) {
     populate { row, col -> values[row.toInt()]  }
 }
 
-fun vectorOf(vararg values: BigDecimal) = rationalmatrix(values.count(), 1) {
+fun vectorOf(vararg values: BigDecimal) = primitivematrix(values.count(), 1) {
     populate { row, col -> values[row.toInt()]  }
 }
 
